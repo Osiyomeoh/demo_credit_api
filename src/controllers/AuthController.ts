@@ -8,11 +8,20 @@ export class AuthController {
     try {
       const { email, phone, firstName, lastName, password } = req.body;
 
-      const existingUser = await userService.findByEmail(email);
-      if (existingUser) {
+      const existingByEmail = await userService.findByEmail(email);
+      if (existingByEmail) {
         res.status(409).json({
           status: 'error',
           message: 'User with this email already exists',
+        });
+        return;
+      }
+
+      const existingByPhone = await userService.findByPhone(phone);
+      if (existingByPhone) {
+        res.status(409).json({
+          status: 'error',
+          message: 'User with this phone number already exists',
         });
         return;
       }
@@ -44,15 +53,37 @@ export class AuthController {
         },
       });
     } catch (error) {
-      const err = error as Error;
-      if (err.message.startsWith('USER_BLACKLISTED:')) {
+      const err = error as any;
+      if ((err as Error).message?.startsWith?.('USER_BLACKLISTED:')) {
         res.status(403).json({
           status: 'error',
-          message: err.message.replace('USER_BLACKLISTED: ', ''),
+          message: (err as Error).message.replace('USER_BLACKLISTED: ', ''),
         });
         return;
       }
-      throw error;
+
+      // Handle unique constraint violations defensively
+      if (err?.code === 'ER_DUP_ENTRY' || err?.errno === 1062) {
+        const msg: string = err.sqlMessage || '';
+        const isPhone = msg.includes('users_phone_unique');
+        const isEmail = msg.includes('users_email_unique');
+
+        res.status(409).json({
+          status: 'error',
+          message: isPhone
+            ? 'User with this phone number already exists'
+            : isEmail
+              ? 'User with this email already exists'
+              : 'User already exists',
+        });
+        return;
+      }
+
+      console.error('[AuthController.register] Unhandled error:', err);
+      res.status(500).json({
+        status: 'error',
+        message: 'Internal server error',
+      });
     }
   }
 

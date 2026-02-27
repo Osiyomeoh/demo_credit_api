@@ -60,9 +60,12 @@ export class UserService {
     return db('users').where({ id }).first();
   }
 
-
   async findByEmail(email: string): Promise<User | undefined> {
     return db('users').where({ email: email.toLowerCase() }).first();
+  }
+
+  async findByPhone(phone: string): Promise<User | undefined> {
+    return db('users').where({ phone }).first();
   }
 
   private hashPassword(password: string): string {

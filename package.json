@@ -12,7 +12,8 @@
     "seed:run": "node -r ts-node/register ./node_modules/.bin/knex seed:run",
     "test": "jest --coverage --forceExit",
     "test:integration": "jest api.integration.test.ts --forceExit --runInBand",
-    "test:watch": "jest --watch --forceExit"
+    "test:watch": "jest --watch --forceExit",
+    "karma:test": "ts-node src/scripts/testKarma.ts"
   },
   "engines": {
     "node": ">=18.0.0"
