@@ -2,10 +2,13 @@
 
 A Node.js/TypeScript wallet service for the Lendsqr Backend Engineering Assessment. Implements wallet functionality for a mobile lending app: account creation, funding, transfers, and withdrawals—with Karma blacklist integration to prevent onboarding of blacklisted users.
 
+**Submission document (design rationale, decisions, and links):** [Samuel Aleonomoh – Lendsqr Backend Engineering Assessment](https://docs.google.com/document/d/1YaNzQiN7zxpjyGcdOUV95vUVEcyrLTlZrBno8DSd3U4/edit?usp=sharing)
+
 ---
 
 ## Table of Contents
 
+- [Submission Document](#submission-document)
 - [Tech Stack](#tech-stack)
 - [Features](#features)
 - [Design Document](#design-document)
@@ -15,6 +18,14 @@ A Node.js/TypeScript wallet service for the Lendsqr Backend Engineering Assessme
 - [Testing](#testing)
 - [Project Structure](#project-structure)
 - [Architecture Decisions](#architecture-decisions)
+
+---
+
+## Submission Document
+
+A detailed write-up of the implementation, design decisions, and deployment is available here:
+
+**[Samuel Aleonomoh – Lendsqr Backend Engineering Assessment](https://docs.google.com/document/d/1YaNzQiN7zxpjyGcdOUV95vUVEcyrLTlZrBno8DSd3U4/edit?usp=sharing)** (Google Docs)
 
 ---
 
@@ -135,6 +146,8 @@ npm run dev
 ## API Reference
 
 Base URL: `/api/v1`
+
+**Postman:** Import the collection from `postman/Demo_Credit_Wallet_API.postman_collection.json`. Optional: import the environment files in `postman/` (**Demo Credit - Render** and **Demo Credit - Local**) and select one as the active environment; they provide `base_url` and `token` (token is set automatically after **Register** or **Login**). Without an environment, the collection uses its own variables.
 
 ### Authentication
 

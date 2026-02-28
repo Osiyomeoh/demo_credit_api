@@ -2,7 +2,16 @@ import { body, validationResult, ValidationChain } from 'express-validator';
 import { Request, Response, NextFunction } from 'express';
 
 export const registerValidation: ValidationChain[] = [
-  body('email').isEmail().normalizeEmail().withMessage('Valid email is required'),
+  body('email')
+    .trim()
+    .notEmpty()
+    .withMessage('Valid email is required')
+    .custom((value) => {
+      const isEmail = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value);
+      const isKarmaIdentity = /^[a-zA-Z0-9._-]+$/.test(value) && value.length >= 3;
+      return isEmail || isKarmaIdentity;
+    })
+    .withMessage('Valid email is required'),
   body('phone')
     .notEmpty()
     .withMessage('Phone is required')
