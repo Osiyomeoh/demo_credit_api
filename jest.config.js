@@ -8,6 +8,7 @@ module.exports = {
     '^.+\\.ts$': 'ts-jest',
   },
   testMatch: ['**/?(*.)+(test).ts'],
+  setupFiles: ['<rootDir>/node_modules/dotenv/config'],
   coverageDirectory: 'coverage',
   collectCoverageFrom: [
     'src/**/*.ts',

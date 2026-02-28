@@ -5,6 +5,12 @@ import { db } from './config/database';
 const PORT = process.env.PORT || 3000;
 
 async function main(): Promise<void> {
+  if (!process.env.ADJUTOR_API_KEY) {
+    console.warn(
+      'ADJUTOR_API_KEY is not set. Karma blacklist checks will fail open (registration allowed when API errors).'
+    );
+  }
+
   try {
     await db.raw('SELECT 1');
     console.log('Database connection established');

@@ -13,7 +13,9 @@
     "test": "jest --coverage --forceExit",
     "test:integration": "jest api.integration.test.ts --forceExit --runInBand",
     "test:watch": "jest --watch --forceExit",
-    "karma:test": "ts-node src/scripts/testKarma.ts"
+    "karma:test": "ts-node src/scripts/testKarma.ts",
+    "karma:log": "ts-node src/scripts/karmaLogResponse.ts",
+    "test:karma-integration": "jest --testPathPattern=AdjutorKarmaService.integration --forceExit"
   },
   "engines": {
     "node": ">=18.0.0"

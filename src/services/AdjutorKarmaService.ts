@@ -31,12 +31,34 @@ export class AdjutorKarmaService {
         `/${encodeURIComponent(normalizedIdentity)}`
       );
 
-      const { status, data } = response.data as {
+      const body = response.data as {
         status: string;
-        data?: { karma_identity?: string };
+        'mock-response'?: string;
+        data?: {
+          karma_identity?: string;
+          default_date?: string;
+          amount_in_contention?: string;
+          reason?: string | null;
+        };
       };
 
-      if (status === 'success' && data && data.karma_identity) {
+      // In test mode the API returns mock data for every request; do not block registration.
+      if (body['mock-response']) {
+        return false;
+      }
+
+      const { status, data } = body;
+
+      // Only treat as blacklisted when the API returns a full blacklist record (live data).
+      const hasBlacklistRecord =
+        status === 'success' &&
+        data &&
+        data.karma_identity &&
+        (data.default_date != null ||
+          data.amount_in_contention != null ||
+          (data.reason != null && data.reason !== ''));
+
+      if (hasBlacklistRecord) {
         return true;
       }
 
